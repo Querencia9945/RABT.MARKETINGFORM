@@ -39,20 +39,25 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Brand tokens */
+    --brand-pink: 312 84% 55%;
+    --brand-orange: 38 96% 54%;
+    --brand-lime: 82 88% 55%;
+    --brand-deep: 230 18% 8%;
+
+    --gradient-brand: conic-gradient(from 0deg, hsl(var(--brand-pink)), hsl(var(--brand-orange)), hsl(var(--brand-lime)), hsl(var(--brand-pink)));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-pink)), hsl(var(--brand-lime)));
+
+    --shadow-elegant: 0 12px 30px -10px hsl(var(--brand-pink) / 0.35);
+    --shadow-glow: 0 0 36px hsl(var(--brand-lime) / 0.35);
   }
 
   .dark {
@@ -94,6 +99,7 @@ All colors MUST be HSL.
   }
 }
 
+
 @layer base {
   * {
     @apply border-border;
@@ -101,5 +107,22 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glass {
+    backdrop-filter: saturate(140%) blur(10px);
+    background: hsl(var(--foreground) / 0.04);
+    border: 1px solid hsl(var(--foreground) / 0.08);
+  }
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
   }
 }
