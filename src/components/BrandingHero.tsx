@@ -1,10 +1,8 @@
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
 const BrandingHero = () => {
   const ref = useRef<HTMLDivElement>(null);
-
   const onMove = (e: React.MouseEvent) => {
     const r = ref.current;
     if (!r) return;
@@ -14,12 +12,10 @@ const BrandingHero = () => {
     r.style.setProperty('--mx', `${x}px`);
     r.style.setProperty('--my', `${y}px`);
   };
-
-  return (
-    <section onMouseMove={onMove} ref={ref} className="relative overflow-hidden">
+  return <section onMouseMove={onMove} ref={ref} className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10 opacity-50" style={{
-        background: `radial-gradient(600px circle at var(--mx,50%) var(--my,50%), hsl(var(--brand-pink)/0.25), transparent 60%)`
-      }} />
+      background: `radial-gradient(600px circle at var(--mx,50%) var(--my,50%), hsl(var(--brand-pink)/0.25), transparent 60%)`
+    }} />
 
       <div className="container mx-auto py-20 md:py-28">
         <p className="uppercase tracking-widest text-sm text-muted-foreground animate-fade-in">Creative Agency</p>
@@ -31,15 +27,13 @@ const BrandingHero = () => {
         </p>
         <div className="mt-8 flex gap-3">
           <Link to="/onboarding">
-            <Button variant="hero" size="lg" className="hover-scale">Start Onboarding</Button>
+            <Button variant="hero" size="lg" className="hover-scale">Start Your Journey</Button>
           </Link>
           <a href="#services">
             <Button variant="outline" size="lg">Explore Services</Button>
           </a>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default BrandingHero;
