@@ -1,15 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
 const Navbar = () => {
-  const linkCls = ({ isActive }: { isActive: boolean }) =>
-    `px-3 py-2 rounded-md text-sm ${isActive ? 'bg-secondary text-secondary-foreground' : 'hover:bg-secondary/40'}`;
-
-  return (
-    <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+  const linkCls = ({
+    isActive
+  }: {
+    isActive: boolean;
+  }) => `px-3 py-2 rounded-md text-sm ${isActive ? 'bg-secondary text-secondary-foreground' : 'hover:bg-secondary/40'}`;
+  return <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <nav className="container mx-auto flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2">
-          <div className="size-8 rounded-full" style={{ background: 'var(--gradient-brand)' }} />
+          <div className="size-8 rounded-full" style={{
+          background: 'var(--gradient-brand)'
+        }} />
           <span className="font-display text-lg">rabt.</span>
         </Link>
         <div className="hidden md:flex items-center gap-1">
@@ -20,12 +22,10 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-2">
           <Link to="/onboarding">
-            <Button variant="hero" size="lg" className="hover-scale">Start Onboarding</Button>
+            <Button variant="hero" size="lg" className="hover-scale">Start</Button>
           </Link>
         </div>
       </nav>
-    </header>
-  );
+    </header>;
 };
-
 export default Navbar;
