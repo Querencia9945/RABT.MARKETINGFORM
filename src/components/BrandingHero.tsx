@@ -12,10 +12,11 @@ const BrandingHero = () => {
     r.style.setProperty('--mx', `${x}px`);
     r.style.setProperty('--my', `${y}px`);
   };
-  return <section onMouseMove={onMove} ref={ref} className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 opacity-50" style={{
-      background: `radial-gradient(600px circle at var(--mx,50%) var(--my,50%), hsl(var(--brand-pink)/0.25), transparent 60%)`
+  return <section onMouseMove={onMove} ref={ref} className="relative overflow-hidden bg-gradient-to-br from-brand-pink/10 via-brand-purple/5 to-brand-lime/10">
+      <div className="absolute inset-0 -z-10" style={{
+      background: `radial-gradient(800px circle at var(--mx,50%) var(--my,50%), hsl(var(--brand-pink)/0.4), hsl(var(--brand-purple)/0.2), transparent 70%)`
     }} />
+      <div className="absolute inset-0 -z-20 bg-gradient-to-r from-brand-orange/5 via-transparent to-brand-lime/5" />
 
       <div className="container mx-auto py-20 md:py-28">
         <p className="uppercase tracking-widest text-sm text-muted-foreground animate-fade-in">Creative Agency</p>

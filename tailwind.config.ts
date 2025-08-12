@@ -61,7 +61,12 @@ export default {
           'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
-        }
+        },
+        'brand-pink': 'hsl(var(--brand-pink))',
+        'brand-orange': 'hsl(var(--brand-orange))',
+        'brand-lime': 'hsl(var(--brand-lime))',
+        'brand-purple': 'hsl(var(--brand-purple))',
+        'brand-deep': 'hsl(var(--brand-deep))'
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'ui-sans-serif', 'sans-serif'],
