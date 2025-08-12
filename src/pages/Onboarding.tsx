@@ -33,7 +33,15 @@ const Onboarding = () => {
   const form = useForm<FormData>({ resolver: zodResolver(schema), mode: 'onTouched' });
 
   const next = async () => {
-    const valid = await form.trigger();
+    // Only validate fields for the current step
+    const fieldsToValidate = [
+      ['company', 'website'] as (keyof FormData)[],
+      ['goals', 'services'] as (keyof FormData)[],  
+      ['budget', 'timeline'] as (keyof FormData)[],
+      ['contactName', 'email', 'phone'] as (keyof FormData)[]
+    ][step];
+    
+    const valid = await form.trigger(fieldsToValidate);
     if (!valid) return;
     setStep((s) => Math.min(s + 1, steps.length - 1));
   };
