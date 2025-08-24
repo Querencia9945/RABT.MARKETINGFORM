@@ -104,7 +104,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification email to RABT Marketing team
     const teamEmailResponse = await resend.emails.send({
       from: "RABT Marketing <onboarding@resend.dev>",
-      to: ["team@rabtmarketing.com"], // Replace with your team email
+      to: ["debojitbordoloi07@gmail.com"],
       subject: `New Onboarding Submission: ${company}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
