@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   company: z.string().min(2, 'Company name is required'),
@@ -19,9 +20,9 @@ const schema = z.object({
   email: z.string().email('Valid email required'),
   phone: z.string().regex(/^[6-9]\d{9}$/, 'Enter valid 10-digit Indian mobile number').optional().or(z.literal('')),
   goals: z.string().min(10, 'Tell us a bit more about your goals'),
-  services: z.string().min(1, 'Please select a marketing plan'),
-  budget: z.string().min(1),
-  timeline: z.string().min(1),
+  services: z.array(z.string()).min(1, 'Please select at least one marketing plan'),
+  budget: z.string().min(1, 'Budget is required'),
+  timeline: z.string().min(1, 'Timeline is required'),
 });
 
 const marketingPlans = [
@@ -42,7 +43,15 @@ const steps = ["Brand", "Objectives", "Plan", "Contact"] as const;
 const Onboarding = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(0);
-  const form = useForm<FormData>({ resolver: zodResolver(schema), mode: 'onTouched' });
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const form = useForm<FormData>({ 
+    resolver: zodResolver(schema), 
+    mode: 'onTouched',
+    defaultValues: {
+      services: []
+    }
+  });
 
   const next = async () => {
     // Only validate fields for the current step
@@ -59,16 +68,68 @@ const Onboarding = () => {
   };
   const back = () => setStep((s) => Math.max(0, s - 1));
 
-  const onSubmit = (values: FormData) => {
-    // For now, just show a success toast and download JSON summary
-    const blob = new Blob([JSON.stringify(values, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `onboarding_${values.company || 'brand'}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast({ title: 'Onboarding submitted', description: 'We received your details. We will reach out shortly.' });
+  const onSubmit = async (values: FormData) => {
+    setIsSubmitting(true);
+    try {
+      // Store in Supabase database
+      const { error: dbError } = await supabase
+        .from('onboarding_submissions')
+        .insert({
+          company: values.company,
+          website: values.website || null,
+          contact_name: values.contactName,
+          email: values.email,
+          phone: values.phone || null,
+          goals: values.goals,
+          selected_services: values.services,
+          budget: values.budget,
+          timeline: values.timeline
+        });
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        throw new Error('Failed to save submission');
+      }
+
+      // Send email via edge function
+      const { error: emailError } = await supabase.functions.invoke('send-onboarding-email', {
+        body: {
+          ...values,
+          services: values.services
+        }
+      });
+
+      if (emailError) {
+        console.error('Email error:', emailError);
+        // Don't throw error for email, as data is already saved
+      }
+
+      toast({ 
+        title: 'Onboarding submitted successfully!', 
+        description: 'We received your details and will reach out shortly.' 
+      });
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({ 
+        title: 'Submission failed', 
+        description: 'Please try again or contact us directly.',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleServiceChange = (serviceValue: string, checked: boolean) => {
+    let newServices = [...selectedServices];
+    if (checked) {
+      newServices.push(serviceValue);
+    } else {
+      newServices = newServices.filter(s => s !== serviceValue);
+    }
+    setSelectedServices(newServices);
+    form.setValue('services', newServices);
   };
 
   const pct = ((step + 1) / steps.length) * 100;
@@ -91,8 +152,8 @@ const Onboarding = () => {
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.company?.message}</p>
               </div>
               <div>
-                <Label htmlFor="website">Website</Label>
-                <Input id="website" {...form.register('website')} placeholder="https://" />
+                <Label htmlFor="website">Website (optional)</Label>
+                <Input id="website" {...form.register('website')} placeholder="https://yourwebsite.com" />
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.website?.message}</p>
               </div>
             </section>
@@ -106,22 +167,24 @@ const Onboarding = () => {
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.goals?.message}</p>
               </div>
               <div>
-                <Label htmlFor="services">Marketing Plan</Label>
-                <Select onValueChange={(value) => form.setValue('services', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choose your marketing package" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {marketingPlans.map((plan) => (
-                      <SelectItem key={plan.value} value={plan.value}>
-                        <div className="flex flex-col">
-                          <span className="font-medium">{plan.label}</span>
-                          <span className="text-xs text-muted-foreground">{plan.price}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label>Marketing Plans (Select all that interest you)</Label>
+                <div className="grid grid-cols-1 gap-3 mt-2">
+                  {marketingPlans.map((plan) => (
+                    <div key={plan.value} className="flex items-start space-x-2 p-3 border rounded-lg hover:bg-muted/50">
+                      <Checkbox
+                        id={plan.value}
+                        checked={selectedServices.includes(plan.value)}
+                        onCheckedChange={(checked) => handleServiceChange(plan.value, checked as boolean)}
+                      />
+                      <div className="flex-1">
+                        <Label htmlFor={plan.value} className="cursor-pointer">
+                          <div className="font-medium">{plan.label}</div>
+                          <div className="text-xs text-muted-foreground">{plan.price}</div>
+                        </Label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.services?.message}</p>
               </div>
             </section>
@@ -157,6 +220,7 @@ const Onboarding = () => {
               <div>
                 <Label htmlFor="phone">Phone (optional)</Label>
                 <Input id="phone" {...form.register('phone')} placeholder="9876543210" />
+                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.phone?.message}</p>
               </div>
             </section>
           )}
@@ -168,7 +232,9 @@ const Onboarding = () => {
             {step < steps.length - 1 ? (
               <Button type="button" variant="hero" onClick={next}>Next</Button>
             ) : (
-              <Button type="submit" variant="hero">Submit</Button>
+              <Button type="submit" variant="hero" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </Button>
             )}
           </div>
         </form>
