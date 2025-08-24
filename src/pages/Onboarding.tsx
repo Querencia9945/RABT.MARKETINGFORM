@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
 const schema = z.object({
@@ -16,12 +17,23 @@ const schema = z.object({
   website: z.string().url('Provide a valid URL').optional().or(z.literal('')),
   contactName: z.string().min(2, 'Your name is required'),
   email: z.string().email('Valid email required'),
-  phone: z.string().optional(),
+  phone: z.string().regex(/^[6-9]\d{9}$/, 'Enter valid 10-digit Indian mobile number').optional().or(z.literal('')),
   goals: z.string().min(10, 'Tell us a bit more about your goals'),
-  services: z.string().min(3),
+  services: z.string().min(1, 'Please select a marketing plan'),
   budget: z.string().min(1),
   timeline: z.string().min(1),
 });
+
+const marketingPlans = [
+  { value: 'brand-building', label: 'Brand Building Package', price: '₹25,000 - ₹50,000/month' },
+  { value: 'digital-marketing', label: 'Digital Marketing Suite', price: '₹35,000 - ₹75,000/month' },
+  { value: 'full-management', label: 'Full Marketing Management', price: '₹80,000 - ₹1,50,000/month' },
+  { value: 'social-media', label: 'Social Media Marketing', price: '₹15,000 - ₹35,000/month' },
+  { value: 'content-creation', label: 'Content Creation & Strategy', price: '₹20,000 - ₹45,000/month' },
+  { value: 'influencer-marketing', label: 'Influencer Marketing', price: '₹30,000 - ₹60,000/month' },
+  { value: 'performance-marketing', label: 'Performance Marketing', price: '₹40,000 - ₹90,000/month' },
+  { value: 'custom', label: 'Custom Package', price: 'Let\'s discuss your needs' }
+];
 
 type FormData = z.infer<typeof schema>;
 
@@ -94,8 +106,22 @@ const Onboarding = () => {
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.goals?.message}</p>
               </div>
               <div>
-                <Label htmlFor="services">Services you need</Label>
-                <Input id="services" {...form.register('services')} placeholder="Social media, Content creation, Influencer marketing" />
+                <Label htmlFor="services">Marketing Plan</Label>
+                <Select onValueChange={(value) => form.setValue('services', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choose your marketing package" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {marketingPlans.map((plan) => (
+                      <SelectItem key={plan.value} value={plan.value}>
+                        <div className="flex flex-col">
+                          <span className="font-medium">{plan.label}</span>
+                          <span className="text-xs text-muted-foreground">{plan.price}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.services?.message}</p>
               </div>
             </section>
@@ -105,7 +131,7 @@ const Onboarding = () => {
             <section className="grid md:grid-cols-2 gap-4 animate-fade-in">
               <div>
                 <Label htmlFor="budget">Monthly budget (range)</Label>
-                <Input id="budget" {...form.register('budget')} placeholder="$2k–$5k" />
+                <Input id="budget" {...form.register('budget')} placeholder="₹20,000–₹50,000" />
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.budget?.message}</p>
               </div>
               <div>
@@ -130,7 +156,7 @@ const Onboarding = () => {
               </div>
               <div>
                 <Label htmlFor="phone">Phone (optional)</Label>
-                <Input id="phone" {...form.register('phone')} placeholder="+1 555 000 1234" />
+                <Input id="phone" {...form.register('phone')} placeholder="9876543210" />
               </div>
             </section>
           )}
