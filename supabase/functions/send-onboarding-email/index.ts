@@ -144,7 +144,40 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Emails sent successfully:", { clientEmailResponse, teamEmailResponse });
+    // Send additional priority notification email
+    const priorityEmailResponse = await resend.emails.send({
+      from: "RABT Marketing <onboarding@resend.dev>",
+      to: ["debojitbordoloi07@gmail.com"],
+      subject: `🚨 URGENT: New Lead - ${company} (${budget})`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <div style="background: #dc2626; color: white; padding: 16px; border-radius: 8px; text-align: center; margin-bottom: 24px;">
+            <h1 style="margin: 0; font-size: 24px;">🚨 NEW LEAD ALERT 🚨</h1>
+          </div>
+          
+          <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin-bottom: 24px;">
+            <h2 style="margin-top: 0; color: #0c4a6e;">Quick Summary</h2>
+            <p style="margin: 8px 0;"><strong>Company:</strong> ${company}</p>
+            <p style="margin: 8px 0;"><strong>Contact:</strong> ${contactName} (${email})</p>
+            <p style="margin: 8px 0;"><strong>Budget:</strong> <span style="color: #dc2626; font-weight: bold;">${budget}</span></p>
+            <p style="margin: 8px 0;"><strong>Timeline:</strong> ${timeline}</p>
+            ${phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> <a href="tel:+91${phone}" style="color: #0ea5e9;">+91 ${phone}</a></p>` : ''}
+          </div>
+          
+          <div style="background: #16a34a; color: white; padding: 12px; border-radius: 8px; text-align: center;">
+            <p style="margin: 0; font-weight: bold;">
+              💰 Potential Revenue: ${budget} | ⏰ Contact within 2 hours!
+            </p>
+          </div>
+          
+          <p style="color: #6b7280; font-size: 12px; margin-top: 24px; text-align: center;">
+            This is an automated priority notification for high-value leads.
+          </p>
+        </div>
+      `,
+    });
+
+    console.log("Emails sent successfully:", { clientEmailResponse, teamEmailResponse, priorityEmailResponse });
 
     return new Response(JSON.stringify({ 
       success: true,
