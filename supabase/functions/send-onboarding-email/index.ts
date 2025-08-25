@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const FROM_EMAIL = Deno.env.get("RESEND_FROM_EMAIL") || "RABT Marketing <onboarding@resend.dev>";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -61,7 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to client
     const clientEmailResponse = await resend.emails.send({
-      from: "RABT Marketing <onboarding@resend.dev>",
+      from: FROM_EMAIL,
       to: [email],
       subject: "Thank you for your interest in RABT Marketing!",
       html: `
@@ -103,7 +104,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email to RABT Marketing team
     const teamEmailResponse = await resend.emails.send({
-      from: "RABT Marketing <onboarding@resend.dev>",
+      from: FROM_EMAIL,
       to: ["debojitbordoloi07@gmail.com"],
       subject: `New Onboarding Submission: ${company}`,
       html: `
@@ -146,7 +147,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send additional priority notification email
     const priorityEmailResponse = await resend.emails.send({
-      from: "RABT Marketing <onboarding@resend.dev>",
+      from: FROM_EMAIL,
       to: ["debojitbordoloi07@gmail.com"],
       subject: `🚨 URGENT: New Lead - ${company} (${budget})`,
       html: `

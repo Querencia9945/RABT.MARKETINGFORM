@@ -18,7 +18,7 @@ const schema = z.object({
   website: z.string().url('Provide a valid URL').optional().or(z.literal('')),
   contactName: z.string().min(2, 'Your name is required'),
   email: z.string().email('Valid email required'),
-  phone: z.string().regex(/^[6-9]\d{9}$/, 'Enter valid 10-digit Indian mobile number').optional().or(z.literal('')),
+  phone: z.string().regex(/^[6-9]\d{9}$/, 'Enter valid 10-digit Indian mobile number'),
   goals: z.string().min(10, 'Tell us a bit more about your goals'),
   services: z.array(z.string()).min(1, 'Please select at least one marketing plan'),
   budget: z.string().min(1, 'Budget is required'),
@@ -79,7 +79,7 @@ const Onboarding = () => {
           website: values.website || null,
           contact_name: values.contactName,
           email: values.email,
-          phone: values.phone || null,
+          phone: values.phone,
           goals: values.goals,
           selected_services: values.services,
           budget: values.budget,
@@ -216,8 +216,8 @@ const Onboarding = () => {
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.email?.message}</p>
               </div>
               <div>
-                <Label htmlFor="phone">Phone (optional)</Label>
-                <Input id="phone" {...form.register('phone')} placeholder="9876543210" />
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" type="tel" inputMode="numeric" pattern="[6-9]\d{9}" {...form.register('phone')} placeholder="9876543210" />
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.phone?.message}</p>
               </div>
             </section>
