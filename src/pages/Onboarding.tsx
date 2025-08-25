@@ -139,8 +139,6 @@ const Onboarding = () => {
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
       <Navbar />
       <main className="container mx-auto py-10">
-        <h1 className="font-display text-3xl md:text-4xl mb-2">Client Onboarding</h1>
-        <p className="text-muted-foreground mb-6">Tell us about your brand — it takes 2–3 minutes.</p>
         <Progress value={pct} className="mb-8" />
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-2xl space-y-6">
