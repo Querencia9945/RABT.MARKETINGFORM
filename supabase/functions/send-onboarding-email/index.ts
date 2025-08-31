@@ -63,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send confirmation email to client
     const clientEmailResponse = await resend.emails.send({
       from: FROM_EMAIL,
-      to: [email],
+      to: ["rabtmarketingcompany@gmail.com"],
       subject: "Thank you for your interest in RABT Marketing!",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -105,7 +105,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send notification email to RABT Marketing team
     const teamEmailResponse = await resend.emails.send({
       from: FROM_EMAIL,
-      to: ["debojitbordoloi07@gmail.com"],
+      to: ["rabtmarketingcompany@gmail.com"],
       subject: `New Onboarding Submission: ${company}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -148,7 +148,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send additional priority notification email
     const priorityEmailResponse = await resend.emails.send({
       from: FROM_EMAIL,
-      to: ["debojitbordoloi07@gmail.com"],
+      to: ["rabtmarketingcompany@gmail.com"],
       subject: `🚨 URGENT: New Lead - ${company} (${budget})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

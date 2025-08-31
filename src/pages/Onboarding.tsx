@@ -3,7 +3,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SEO from "@/components/SEO";
-import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -49,7 +48,8 @@ const Onboarding = () => {
     resolver: zodResolver(schema), 
     mode: 'onTouched',
     defaultValues: {
-      services: []
+      services: [],
+      email: 'rabtmarketingcompany@gmail.com'
     }
   });
 
@@ -78,7 +78,7 @@ const Onboarding = () => {
           company: values.company,
           website: values.website || null,
           contact_name: values.contactName,
-          email: values.email,
+          email: 'rabtmarketingcompany@gmail.com',
           phone: values.phone,
           goals: values.goals,
           selected_services: values.services,
@@ -137,7 +137,6 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen">
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
-      <Navbar />
       <main className="container mx-auto py-10">
         <Progress value={pct} className="mb-8" />
 
@@ -211,14 +210,13 @@ const Onboarding = () => {
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.contactName?.message}</p>
               </div>
               <div>
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" {...form.register('email')} placeholder="you@company.com" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.email?.message}</p>
-              </div>
-              <div>
                 <Label htmlFor="phone">Phone</Label>
                 <Input id="phone" type="tel" inputMode="numeric" pattern="[6-9]\d{9}" {...form.register('phone')} placeholder="9876543210" />
                 <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.phone?.message}</p>
+              </div>
+              <div>
+                <Label htmlFor="email">Sending to</Label>
+                <Input id="email" type="email" value="rabtmarketingcompany@gmail.com" readOnly className="bg-muted cursor-not-allowed" />
               </div>
             </section>
           )}
