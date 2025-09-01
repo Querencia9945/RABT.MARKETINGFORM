@@ -8,113 +8,113 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Elegant background and foreground */
-    --background: 0 0% 99%;
-    --foreground: 230 18% 8%;
+    /* Professional black, silver, white palette */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 230 18% 8%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 230 18% 8%;
+    --popover-foreground: 0 0% 8%;
 
-    /* Refined primary colors using brand deep */
-    --primary: 230 18% 8%;
+    /* Primary: Deep black */
+    --primary: 0 0% 8%;
     --primary-foreground: 0 0% 98%;
 
-    /* Softer secondary colors */
-    --secondary: 0 0% 97%;
-    --secondary-foreground: 230 18% 8%;
+    /* Secondary: Silver tones */
+    --secondary: 0 0% 88%;
+    --secondary-foreground: 0 0% 8%;
 
-    /* Elegant muted tones */
-    --muted: 0 0% 96%;
-    --muted-foreground: 230 8% 45%;
+    /* Muted: Light grays */
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 45%;
 
-    /* Subtle accent */
-    --accent: 312 15% 95%;
-    --accent-foreground: 230 18% 8%;
+    /* Accent: Silver with subtle warmth */
+    --accent: 0 0% 92%;
+    --accent-foreground: 0 0% 8%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Refined borders and inputs */
-    --border: 0 0% 92%;
+    /* Professional borders and inputs */
+    --border: 0 0% 86%;
     --input: 0 0% 96%;
-    --ring: 312 92% 65%;
+    --ring: 0 0% 20%;
 
-    --radius: 12px;
+    --radius: 8px;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 0 0% 8%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 0 0% 94%;
+    --sidebar-accent-foreground: 0 0% 8%;
+    --sidebar-border: 0 0% 86%;
+    --sidebar-ring: 0 0% 20%;
 
-    /* Enhanced RABT Brand tokens */
-    --brand-pink: 312 92% 65%;
-    --brand-orange: 38 100% 64%;
-    --brand-lime: 82 95% 65%;
-    --brand-purple: 270 95% 65%;
-    --brand-deep: 230 18% 8%;
+    /* Professional brand tokens */
+    --brand-silver: 0 0% 75%;
+    --brand-dark-silver: 0 0% 60%;
+    --brand-light-silver: 0 0% 85%;
+    --brand-charcoal: 0 0% 15%;
+    --brand-deep: 0 0% 8%;
 
-    /* Elegant gradients */
-    --gradient-brand: conic-gradient(from 0deg, hsl(var(--brand-pink)), hsl(var(--brand-orange)), hsl(var(--brand-lime)), hsl(var(--brand-purple)), hsl(var(--brand-pink)));
-    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-pink)), hsl(var(--brand-lime)));
-    --gradient-subtle: linear-gradient(135deg, hsl(var(--brand-pink) / 0.05), hsl(var(--brand-lime) / 0.05));
-    --gradient-bg: radial-gradient(ellipse at top, hsl(var(--brand-pink) / 0.08), hsl(var(--brand-purple) / 0.04), transparent 70%);
+    /* Professional gradients */
+    --gradient-brand: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 25%), hsl(0 0% 75%));
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 8%), hsl(0 0% 20%));
+    --gradient-subtle: linear-gradient(135deg, hsl(0 0% 98%), hsl(0 0% 94%));
+    --gradient-bg: radial-gradient(ellipse at top, hsl(0 0% 94%), hsl(0 0% 98%));
 
-    /* Premium shadows */
-    --shadow-elegant: 0 20px 40px -12px hsl(var(--brand-pink) / 0.15), 0 8px 16px -4px hsl(var(--brand-pink) / 0.1);
-    --shadow-glow: 0 0 50px hsl(var(--brand-lime) / 0.3);
-    --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.08), 0 2px 8px -2px hsl(0 0% 0% / 0.04);
-    --shadow-input: 0 2px 8px -2px hsl(var(--brand-pink) / 0.08);
+    /* Professional shadows */
+    --shadow-elegant: 0 20px 40px -12px hsl(0 0% 0% / 0.12), 0 8px 16px -4px hsl(0 0% 0% / 0.08);
+    --shadow-glow: 0 0 30px hsl(0 0% 0% / 0.1);
+    --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.06), 0 2px 8px -2px hsl(0 0% 0% / 0.04);
+    --shadow-input: 0 2px 8px -2px hsl(0 0% 0% / 0.06);
   }
 
   .dark {
-    --background: 230 18% 6%;
+    --background: 0 0% 6%;
     --foreground: 0 0% 98%;
 
-    --card: 230 18% 8%;
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 230 18% 8%;
+    --popover: 0 0% 8%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
-    --primary-foreground: 230 18% 8%;
+    --primary-foreground: 0 0% 8%;
 
-    --secondary: 230 12% 12%;
+    --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 230 12% 12%;
-    --muted-foreground: 230 8% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 312 15% 15%;
+    --accent: 0 0% 15%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 230 12% 15%;
-    --input: 230 12% 12%;
-    --ring: 312 92% 65%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 0 0% 80%;
     
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 0% 80%;
 
     /* Dark mode shadows */
-    --shadow-elegant: 0 20px 40px -12px hsl(0 0% 0% / 0.3), 0 8px 16px -4px hsl(0 0% 0% / 0.2);
-    --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.2), 0 2px 8px -2px hsl(0 0% 0% / 0.1);
-    --shadow-input: 0 2px 8px -2px hsl(var(--brand-pink) / 0.15);
+    --shadow-elegant: 0 20px 40px -12px hsl(0 0% 0% / 0.4), 0 8px 16px -4px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.3), 0 2px 8px -2px hsl(0 0% 0% / 0.2);
+    --shadow-input: 0 2px 8px -2px hsl(0 0% 0% / 0.15);
   }
 }
 
@@ -139,38 +139,34 @@ All colors MUST be HSL.
   
   .glass {
     backdrop-filter: saturate(140%) blur(20px);
-    background: hsl(var(--card) / 0.8);
+    background: hsl(var(--card) / 0.95);
     border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-card);
   }
   
   .hover-scale {
-    @apply transition-all duration-300 hover:scale-[1.02];
+    @apply transition-all duration-300 hover:scale-[1.01];
   }
   
   .form-card {
-    @apply bg-card border border-border rounded-xl shadow-[var(--shadow-card)] backdrop-blur-sm;
-    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / 0.95));
+    @apply bg-card border-2 border-border rounded-lg shadow-[var(--shadow-elegant)];
+    background: hsl(var(--card));
   }
   
   .elegant-input {
-    @apply h-12 px-4 bg-input/50 border border-border rounded-xl focus:border-brand-pink focus:shadow-[var(--shadow-input)] transition-all duration-200;
+    @apply h-12 px-4 bg-input border border-border rounded-lg focus:border-primary focus:shadow-[var(--shadow-input)] transition-all duration-200 font-medium;
   }
   
   .elegant-label {
-    @apply text-sm font-medium text-foreground/80 mb-2;
+    @apply text-sm font-semibold text-foreground/90 mb-2 uppercase tracking-wide;
   }
   
   .brand-badge {
     background: var(--gradient-brand);
-    @apply p-0.5 rounded-full;
+    @apply p-1 rounded-full shadow-lg;
   }
   
   .brand-text {
-    @apply font-display text-2xl font-bold;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    @apply font-display text-2xl font-bold text-foreground;
   }
 }

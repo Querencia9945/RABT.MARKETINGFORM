@@ -135,21 +135,21 @@ const Onboarding = () => {
   const pct = ((step + 1) / steps.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/30">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
       
-      {/* Elegant Header with RABT Branding */}
-      <header className="pt-8 pb-4">
+      {/* Professional Header with RABT Branding */}
+      <header className="pt-12 pb-8">
         <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="flex items-center justify-center gap-4 mb-2">
             <div className="brand-badge">
-              <div className="size-12 bg-card rounded-full flex items-center justify-center">
-                <span className="font-display text-xl font-bold text-foreground">R</span>
+              <div className="size-14 bg-primary rounded-full flex items-center justify-center shadow-lg">
+                <span className="font-display text-2xl font-bold text-primary-foreground">R</span>
               </div>
             </div>
             <div>
               <h1 className="brand-text">RABT Marketing</h1>
-              <p className="text-muted-foreground text-sm font-medium">Creative Agency</p>
+              <p className="text-muted-foreground text-sm font-semibold uppercase tracking-wider">Creative Agency</p>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@ const Onboarding = () => {
                     <Label className="elegant-label">Marketing Plans <span className="text-muted-foreground">(Select all that interest you)</span></Label>
                     <div className="grid grid-cols-1 gap-3 mt-3">
                       {marketingPlans.map((plan) => (
-                        <div key={plan.value} className="flex items-start space-x-3 p-4 border border-border rounded-xl hover:border-brand-pink/30 hover:bg-accent/30 transition-all duration-200 cursor-pointer">
+                        <div key={plan.value} className="flex items-start space-x-3 p-5 border-2 border-border rounded-lg hover:border-primary hover:bg-accent/50 transition-all duration-200 cursor-pointer shadow-sm">
                           <Checkbox
                             id={plan.value}
                             checked={selectedServices.includes(plan.value)}
@@ -221,8 +221,8 @@ const Onboarding = () => {
                           />
                           <div className="flex-1">
                             <Label htmlFor={plan.value} className="cursor-pointer block">
-                              <div className="font-semibold text-foreground mb-1">{plan.label}</div>
-                              <div className="text-sm text-brand-pink font-medium">{plan.price}</div>
+                              <div className="font-bold text-foreground mb-1">{plan.label}</div>
+                              <div className="text-sm text-muted-foreground font-semibold">{plan.price}</div>
                             </Label>
                           </div>
                         </div>
@@ -280,10 +280,10 @@ const Onboarding = () => {
                         type="email" 
                         value="rabtmarketingcompany@gmail.com" 
                         readOnly 
-                        className="elegant-input bg-gradient-to-r from-accent/50 to-accent/30 cursor-not-allowed font-medium text-brand-pink"
+                        className="elegant-input bg-muted cursor-not-allowed font-bold text-primary"
                       />
                       <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                        <div className="size-2 bg-brand-lime rounded-full animate-pulse"></div>
+                        <div className="size-3 bg-primary rounded-full"></div>
                       </div>
                     </div>
                   </div>
