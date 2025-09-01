@@ -135,105 +135,203 @@ const Onboarding = () => {
   const pct = ((step + 1) / steps.length) * 100;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/30">
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
-      <main className="container mx-auto py-10">
-        <Progress value={pct} className="mb-8" />
+      
+      {/* Elegant Header with RABT Branding */}
+      <header className="pt-8 pb-4">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <div className="brand-badge">
+              <div className="size-12 bg-card rounded-full flex items-center justify-center">
+                <span className="font-display text-xl font-bold text-foreground">R</span>
+              </div>
+            </div>
+            <div>
+              <h1 className="brand-text">RABT Marketing</h1>
+              <p className="text-muted-foreground text-sm font-medium">Creative Agency</p>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-2xl space-y-6">
-          {step === 0 && (
-            <section className="space-y-4 animate-fade-in">
-              <div>
-                <Label htmlFor="company">Company / Brand</Label>
-                <Input id="company" {...form.register('company')} placeholder="Acme Co." />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.company?.message}</p>
-              </div>
-              <div>
-                <Label htmlFor="website">Website (optional)</Label>
-                <Input id="website" {...form.register('website')} placeholder="https://yourwebsite.com" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.website?.message}</p>
-              </div>
-            </section>
-          )}
+      <main className="container mx-auto pb-16 px-4">
+        <div className="max-w-2xl mx-auto">
+          {/* Progress Bar */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-muted-foreground">Step {step + 1} of {steps.length}</span>
+              <span className="text-sm font-medium text-muted-foreground">{Math.round(pct)}% Complete</span>
+            </div>
+            <Progress value={pct} className="h-2" />
+          </div>
 
-          {step === 1 && (
-            <section className="space-y-4 animate-fade-in">
-              <div>
-                <Label htmlFor="goals">Main goals</Label>
-                <Textarea id="goals" rows={4} {...form.register('goals')} placeholder="Grow Instagram reach, launch brand campaign, boost conversions…" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.goals?.message}</p>
-              </div>
-              <div>
-                <Label>Marketing Plans (Select all that interest you)</Label>
-                <div className="grid grid-cols-1 gap-3 mt-2">
-                  {marketingPlans.map((plan) => (
-                    <div key={plan.value} className="flex items-start space-x-2 p-3 border rounded-lg hover:bg-muted/50">
-                      <Checkbox
-                        id={plan.value}
-                        checked={selectedServices.includes(plan.value)}
-                        onCheckedChange={(checked) => handleServiceChange(plan.value, checked as boolean)}
+          {/* Form Card */}
+          <div className="form-card p-8 md:p-12">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {step === 0 && (
+              <section className="space-y-6 animate-fade-in">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-display font-semibold mb-2">Tell us about your brand</h2>
+                  <p className="text-muted-foreground">Let's start with the basics about your company</p>
+                </div>
+                <div className="space-y-5">
+                  <div>
+                    <Label htmlFor="company" className="elegant-label">Company / Brand Name</Label>
+                    <Input id="company" {...form.register('company')} placeholder="Acme Co." className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.company?.message}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="website" className="elegant-label">Website <span className="text-muted-foreground">(optional)</span></Label>
+                    <Input id="website" {...form.register('website')} placeholder="https://yourwebsite.com" className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.website?.message}</p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {step === 1 && (
+              <section className="space-y-6 animate-fade-in">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-display font-semibold mb-2">What are your objectives?</h2>
+                  <p className="text-muted-foreground">Help us understand your goals and preferred services</p>
+                </div>
+                <div className="space-y-6">
+                  <div>
+                    <Label htmlFor="goals" className="elegant-label">Main Goals</Label>
+                    <Textarea 
+                      id="goals" 
+                      rows={4} 
+                      {...form.register('goals')} 
+                      placeholder="Grow Instagram reach, launch brand campaign, boost conversions…" 
+                      className="elegant-input min-h-[120px] resize-none"
+                    />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.goals?.message}</p>
+                  </div>
+                  <div>
+                    <Label className="elegant-label">Marketing Plans <span className="text-muted-foreground">(Select all that interest you)</span></Label>
+                    <div className="grid grid-cols-1 gap-3 mt-3">
+                      {marketingPlans.map((plan) => (
+                        <div key={plan.value} className="flex items-start space-x-3 p-4 border border-border rounded-xl hover:border-brand-pink/30 hover:bg-accent/30 transition-all duration-200 cursor-pointer">
+                          <Checkbox
+                            id={plan.value}
+                            checked={selectedServices.includes(plan.value)}
+                            onCheckedChange={(checked) => handleServiceChange(plan.value, checked as boolean)}
+                            className="mt-1"
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor={plan.value} className="cursor-pointer block">
+                              <div className="font-semibold text-foreground mb-1">{plan.label}</div>
+                              <div className="text-sm text-brand-pink font-medium">{plan.price}</div>
+                            </Label>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.services?.message}</p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {step === 2 && (
+              <section className="space-y-6 animate-fade-in">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-display font-semibold mb-2">Investment & Timeline</h2>
+                  <p className="text-muted-foreground">Let's discuss your budget and when you'd like to start</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="budget" className="elegant-label">Monthly Investment Range</Label>
+                    <Input id="budget" {...form.register('budget')} placeholder="₹20,000–₹50,000" className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.budget?.message}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="timeline" className="elegant-label">Preferred Timeline</Label>
+                    <Input id="timeline" {...form.register('timeline')} placeholder="e.g., Start next month" className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.timeline?.message}</p>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {step === 3 && (
+              <section className="space-y-6 animate-fade-in">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-display font-semibold mb-2">Let's connect</h2>
+                  <p className="text-muted-foreground">We're excited to learn more about your project</p>
+                </div>
+                <div className="space-y-5">
+                  <div>
+                    <Label htmlFor="contactName" className="elegant-label">Your Name</Label>
+                    <Input id="contactName" {...form.register('contactName')} placeholder="Jane Doe" className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.contactName?.message}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="phone" className="elegant-label">Phone Number</Label>
+                    <Input id="phone" type="tel" inputMode="numeric" pattern="[6-9]\d{9}" {...form.register('phone')} placeholder="9876543210" className="elegant-input" />
+                    <p className="text-xs text-destructive mt-1.5">{form.formState.errors.phone?.message}</p>
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="elegant-label">Sending inquiry to</Label>
+                    <div className="relative">
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        value="rabtmarketingcompany@gmail.com" 
+                        readOnly 
+                        className="elegant-input bg-gradient-to-r from-accent/50 to-accent/30 cursor-not-allowed font-medium text-brand-pink"
                       />
-                      <div className="flex-1">
-                        <Label htmlFor={plan.value} className="cursor-pointer">
-                          <div className="font-medium">{plan.label}</div>
-                          <div className="text-xs text-muted-foreground">{plan.price}</div>
-                        </Label>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        <div className="size-2 bg-brand-lime rounded-full animate-pulse"></div>
                       </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.services?.message}</p>
-              </div>
-            </section>
-          )}
-
-          {step === 2 && (
-            <section className="grid md:grid-cols-2 gap-4 animate-fade-in">
-              <div>
-                <Label htmlFor="budget">Monthly budget (range)</Label>
-                <Input id="budget" {...form.register('budget')} placeholder="₹20,000–₹50,000" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.budget?.message}</p>
-              </div>
-              <div>
-                <Label htmlFor="timeline">Timeline</Label>
-                <Input id="timeline" {...form.register('timeline')} placeholder="e.g., Start next month" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.timeline?.message}</p>
-              </div>
-            </section>
-          )}
-
-          {step === 3 && (
-            <section className="space-y-4 animate-fade-in">
-              <div>
-                <Label htmlFor="contactName">Your name</Label>
-                <Input id="contactName" {...form.register('contactName')} placeholder="Jane Doe" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.contactName?.message}</p>
-              </div>
-              <div>
-                <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" inputMode="numeric" pattern="[6-9]\d{9}" {...form.register('phone')} placeholder="9876543210" />
-                <p className="text-xs text-muted-foreground mt-1">{form.formState.errors.phone?.message}</p>
-              </div>
-              <div>
-                <Label htmlFor="email">Sending to</Label>
-                <Input id="email" type="email" value="rabtmarketingcompany@gmail.com" readOnly className="bg-muted cursor-not-allowed" />
-              </div>
-            </section>
-          )}
-
-          <div className="flex gap-3 pt-2">
-            {step > 0 && (
-              <Button type="button" variant="outline" onClick={back}>Back</Button>
+              </section>
             )}
-            {step < steps.length - 1 ? (
-              <Button type="button" variant="hero" onClick={next}>Next</Button>
-            ) : (
-              <Button type="submit" variant="hero" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </Button>
-            )}
-          </div>
-        </form>
+
+            <div className="flex gap-4 pt-8 border-t border-border">
+              {step > 0 && (
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={back}
+                  className="px-8 h-12 rounded-xl font-medium"
+                >
+                  Back
+                </Button>
+              )}
+              {step < steps.length - 1 ? (
+                <Button 
+                  type="button" 
+                  variant="hero" 
+                  onClick={next}
+                  className="flex-1 h-12 rounded-xl font-semibold text-base hover-scale"
+                >
+                  Continue
+                </Button>
+              ) : (
+                <Button 
+                  type="submit" 
+                  variant="hero" 
+                  disabled={isSubmitting}
+                  className="flex-1 h-12 rounded-xl font-semibold text-base hover-scale"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin size-4 border-2 border-white/30 border-t-white rounded-full mr-2"></div>
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Inquiry'
+                  )}
+                </Button>
+              )}
+            </div>
+          </form>
+        </div>
+        </div>
       </main>
     </div>
   );
