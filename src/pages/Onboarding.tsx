@@ -44,6 +44,7 @@ const Onboarding = () => {
   const [step, setStep] = useState(0);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const form = useForm<FormData>({ 
     resolver: zodResolver(schema), 
     mode: 'onTouched',
@@ -109,6 +110,8 @@ const Onboarding = () => {
         description: 'We received your details and will reach out shortly.' 
       });
       
+      setIsSubmitted(true);
+      
     } catch (error) {
       console.error('Submission error:', error);
       toast({ 
@@ -134,36 +137,68 @@ const Onboarding = () => {
 
   const pct = ((step + 1) / steps.length) * 100;
 
+  // Success Screen
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary to-brand-deep flex items-center justify-center p-4">
+        <SEO title="Success — RABT Marketing" description="Thank you for your submission to RABT Marketing." />
+        <div className="text-center space-y-8 max-w-2xl mx-auto animate-fade-in">
+          {/* Success Icon */}
+          <div className="inline-flex items-center justify-center w-24 h-24 bg-white/20 rounded-full mb-8">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+          </div>
+          
+          {/* Success Message */}
+          <div className="space-y-6 text-white">
+            <h1 className="text-4xl md:text-6xl font-display font-bold tracking-tight">
+              YOUR STEP TOWARDS
+              <br />
+              <span className="text-white/90">GROWTH IS COMPLETED</span>
+            </h1>
+            
+            <div className="space-y-4 text-xl md:text-2xl font-medium text-white/90">
+              <p>Thank you for choosing RABT Marketing!</p>
+              <p>We've received your information and will get back to you shortly.</p>
+            </div>
+            
+            <div className="pt-8">
+              <div className="inline-flex items-center justify-center px-8 py-4 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/30">
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+                  <span className="text-white font-semibold text-lg">
+                    Our team will contact you within 24 hours
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
       
-      {/* Professional Header with RABT Logo */}
+      {/* Professional Header */}
       <header className="pt-16 pb-12">
         <div className="container mx-auto text-center">
-          <div className="flex flex-col items-center space-y-6">
-            {/* Logo Container */}
-            <div className="bg-primary rounded-2xl p-6 shadow-[var(--shadow-elegant)] hover-scale">
-              <img 
-                src="/lovable-uploads/c6aa0008-b590-49e1-bf53-bd99f7acdddd.png" 
-                alt="RABT Marketing Logo"
-                className="h-12 w-auto object-contain brightness-0 invert"
-              />
-            </div>
-            
-            {/* Brand Text */}
-            <div className="space-y-3">
-              <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground tracking-tight">
-                RABT Marketing
-              </h1>
-              <div className="space-y-1">
-                <p className="text-muted-foreground text-sm font-semibold uppercase tracking-wider">
-                  Creative Agency
-                </p>
-                <p className="text-lg md:text-xl font-medium text-muted-foreground/80 italic">
-                  "Crafting brands that captivate & campaigns that convert"
-                </p>
-              </div>
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-foreground tracking-tight">
+              RABT Marketing
+            </h1>
+            <div className="space-y-2">
+              <p className="text-muted-foreground text-sm font-semibold uppercase tracking-wider">
+                Creative Agency
+              </p>
+              <p className="text-xl md:text-2xl font-medium text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Crafting brands that captivate & campaigns that convert
+              </p>
             </div>
           </div>
         </div>
