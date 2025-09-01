@@ -138,17 +138,19 @@ const Onboarding = () => {
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       <SEO title="Client Onboarding — RABT Marketing" description="Seamless multi-step onboarding for new clients at RABT Marketing." />
       
-      {/* Professional Header with RABT Branding */}
+      {/* Professional Header with RABT Logo */}
       <header className="pt-12 pb-8">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center gap-4 mb-2">
-            <div className="brand-badge">
-              <div className="size-14 bg-primary rounded-full flex items-center justify-center shadow-lg">
-                <span className="font-display text-2xl font-bold text-primary-foreground">R</span>
-              </div>
+            <div className="bg-primary rounded-lg p-4 shadow-lg">
+              <img 
+                src="/lovable-uploads/c6aa0008-b590-49e1-bf53-bd99f7acdddd.png" 
+                alt="RABT Marketing Logo"
+                className="h-8 w-auto object-contain brightness-0 invert"
+              />
             </div>
             <div>
-              <h1 className="brand-text">RABT Marketing</h1>
+              <h1 className="text-2xl font-display font-bold text-foreground">RABT Marketing</h1>
               <p className="text-muted-foreground text-sm font-semibold uppercase tracking-wider">Creative Agency</p>
             </div>
           </div>
