@@ -66,44 +66,86 @@ const handler = async (req: Request): Promise<Response> => {
       return plan ? `${plan.label} (${plan.price})` : service;
     }).join('\n');
 
-    // Send confirmation email to the client
+    // Send inquiry notification email to company
     const emailResponse = await resend.emails.send({
       from: "RABT Marketing <rabtmarketingcompany@gmail.com>",
-      to: [email],
-      subject: "Thank you for your inquiry - RABT Marketing",
+      to: ["rabtmarketingcompany@gmail.com"],
+      subject: `New Client Inquiry from ${company} - ${contactName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">Thank you for your inquiry!</h1>
+          <h1 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">🎯 New Client Inquiry Received!</h1>
           
-          <p>Dear ${contactName},</p>
+          <p style="font-size: 16px; color: #555;">A new potential client has submitted an inquiry through your website.</p>
           
-          <p>Thank you for reaching out to RABT Marketing. We have received your inquiry and our team will review your requirements carefully.</p>
-          
-          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h2 style="color: #333; margin-top: 0;">Your Inquiry Details:</h2>
-            <p><strong>Company:</strong> ${company}</p>
-            ${website ? `<p><strong>Website:</strong> ${website}</p>` : ''}
-            <p><strong>Contact:</strong> ${contactName}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-            <p><strong>Goals:</strong> ${goals}</p>
-            <p><strong>Budget:</strong> ${budget}</p>
-            <p><strong>Timeline:</strong> ${timeline}</p>
+          <div style="background-color: #f8f9fa; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #007bff;">
+            <h2 style="color: #333; margin-top: 0; margin-bottom: 20px;">📋 Client Information</h2>
             
-            <h3 style="color: #333;">Selected Services:</h3>
-            <pre style="background-color: white; padding: 15px; border-radius: 4px; white-space: pre-wrap; font-family: Arial, sans-serif;">${selectedServices}</pre>
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Company Name:</strong>
+              <span style="margin-left: 10px; font-size: 16px;">${company}</span>
+            </div>
+            
+            ${website ? `
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Website:</strong>
+              <span style="margin-left: 10px;"><a href="${website}" target="_blank" style="color: #007bff;">${website}</a></span>
+            </div>
+            ` : ''}
+            
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Contact Person:</strong>
+              <span style="margin-left: 10px; font-size: 16px;">${contactName}</span>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Email:</strong>
+              <span style="margin-left: 10px;"><a href="mailto:${email}" style="color: #007bff;">${email}</a></span>
+            </div>
+            
+            ${phone ? `
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Phone:</strong>
+              <span style="margin-left: 10px;"><a href="tel:${phone}" style="color: #007bff;">${phone}</a></span>
+            </div>
+            ` : ''}
+            
+            <div style="margin-bottom: 15px;">
+              <strong style="color: #007bff;">Budget:</strong>
+              <span style="margin-left: 10px; font-size: 16px;">${budget}</span>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+              <strong style="color: #007bff;">Timeline:</strong>
+              <span style="margin-left: 10px; font-size: 16px;">${timeline}</span>
+            </div>
           </div>
           
-          <p>Our team will get back to you within 24 hours with a customized proposal that aligns with your business goals and budget.</p>
+          <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
+            <h3 style="color: #333; margin-top: 0;">🎯 Business Goals</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.6;">${goals}</p>
+          </div>
           
-          <p>If you have any urgent questions, feel free to reply to this email or contact us directly.</p>
+          <div style="background-color: #d1ecf1; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #17a2b8;">
+            <h3 style="color: #333; margin-top: 0;">📦 Selected Services</h3>
+            <div style="background-color: white; padding: 15px; border-radius: 4px;">
+              ${selectedServices.split('\n').map(service => `<div style="margin-bottom: 8px; padding: 8px; background-color: #f8f9fa; border-radius: 4px;">• ${service}</div>`).join('')}
+            </div>
+          </div>
           
-          <p>Best regards,<br>
-          <strong>RABT Marketing Team</strong><br>
-          Your Partner in Digital Growth</p>
+          <div style="background-color: #d4edda; padding: 20px; border-radius: 8px; margin: 30px 0; text-align: center; border-left: 4px solid #28a745;">
+            <h3 style="color: #155724; margin-top: 0;">⚡ Next Steps</h3>
+            <p style="margin: 10px 0; color: #155724;">
+              <strong>Reply to this email</strong> or call <strong>${phone || email}</strong> to follow up with this inquiry.
+            </p>
+            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+              Recommended response time: Within 24 hours for best conversion rates.
+            </p>
+          </div>
           
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-          <p style="font-size: 12px; color: #666;">This email was sent from RABT Marketing Company. If you have any questions, please contact us at rabtmarketingcompany@gmail.com</p>
+          <p style="font-size: 12px; color: #666; text-align: center;">
+            This inquiry was automatically generated from your RABT Marketing website contact form.
+          </p>
         </div>
       `,
     });
