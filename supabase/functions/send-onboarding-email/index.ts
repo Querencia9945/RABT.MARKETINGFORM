@@ -1,8 +1,4 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@2.0.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
-const FROM_EMAIL = Deno.env.get("RESEND_FROM_EMAIL") || "RABT Marketing <onboarding@resend.dev>";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -52,144 +48,21 @@ const handler = async (req: Request): Promise<Response> => {
       timeline
     }: OnboardingEmailRequest = await req.json();
 
-    console.log("Processing onboarding submission for:", email);
-
-    // Format selected services for email
-    const selectedPlans = services.map(serviceKey => {
-      const plan = marketingPlans[serviceKey];
-      return `• ${plan?.label || serviceKey} - ${plan?.price || 'Custom pricing'}`;
-    }).join('\n');
-
-    // Send confirmation email to client
-    const clientEmailResponse = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ["rabtmarketingcompany@gmail.com"],
-      subject: "Thank you for your interest in RABT Marketing!",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #1f2937; margin-bottom: 24px;">Thank you, ${contactName}!</h1>
-          
-          <p style="color: #374151; line-height: 1.6; margin-bottom: 16px;">
-            We've received your onboarding submission for <strong>${company}</strong> and are excited to help you grow your brand.
-          </p>
-          
-          <h2 style="color: #1f2937; margin-top: 32px; margin-bottom: 16px;">Your Selected Services:</h2>
-          <div style="background: #f9fafb; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
-            <pre style="margin: 0; white-space: pre-wrap; color: #374151;">${selectedPlans}</pre>
-          </div>
-          
-          <p style="color: #374151; line-height: 1.6; margin-bottom: 16px;">
-            <strong>Budget Range:</strong> ${budget}<br>
-            <strong>Timeline:</strong> ${timeline}
-          </p>
-          
-          <p style="color: #374151; line-height: 1.6; margin-bottom: 24px;">
-            Our team will review your requirements and get back to you within 24 hours to schedule a detailed consultation.
-          </p>
-          
-          <div style="background: #eff6ff; padding: 16px; border-radius: 8px; margin: 24px 0;">
-            <p style="margin: 0; color: #1e40af; font-weight: 500;">
-              📞 Need immediate assistance? WhatsApp us at +91-XXXXXXXXXX
-            </p>
-          </div>
-          
-          <p style="color: #6b7280; font-size: 14px; margin-top: 32px;">
-            Best regards,<br>
-            <strong>RABT Marketing Team</strong><br>
-            Transforming Brands, Driving Results
-          </p>
-        </div>
-      `,
+    console.log("Onboarding data received:", {
+      company: company,
+      contactName: contactName,
+      email: email,
+      services: services,
+      budget: budget,
+      timeline: timeline
     });
 
-    // Add delay to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Send notification email to RABT Marketing team
-    const teamEmailResponse = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ["rabtmarketingcompany@gmail.com"],
-      subject: `New Onboarding Submission: ${company}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #1f2937; margin-bottom: 24px;">New Client Onboarding 🎉</h1>
-          
-          <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-            <h2 style="color: #1f2937; margin-top: 0;">Company Details</h2>
-            <p><strong>Company:</strong> ${company}</p>
-            ${website ? `<p><strong>Website:</strong> <a href="${website}">${website}</a></p>` : ''}
-            
-            <h3 style="color: #1f2937; margin-top: 20px;">Contact Information</h3>
-            <p><strong>Name:</strong> ${contactName}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-            ${phone ? `<p><strong>Phone:</strong> <a href="tel:+91${phone}">+91 ${phone}</a></p>` : ''}
-            
-            <h3 style="color: #1f2937; margin-top: 20px;">Project Details</h3>
-            <p><strong>Goals:</strong></p>
-            <div style="background: white; padding: 12px; border-radius: 4px; margin: 8px 0;">
-              ${goals.replace(/\n/g, '<br>')}
-            </div>
-            
-            <p><strong>Selected Services:</strong></p>
-            <div style="background: white; padding: 12px; border-radius: 4px; margin: 8px 0;">
-              ${selectedPlans.replace(/\n/g, '<br>')}
-            </div>
-            
-            <p><strong>Budget:</strong> ${budget}</p>
-            <p><strong>Timeline:</strong> ${timeline}</p>
-          </div>
-          
-          <div style="background: #fef3c7; padding: 16px; border-radius: 8px;">
-            <p style="margin: 0; color: #92400e; font-weight: 500;">
-              ⏰ Follow up within 24 hours for best conversion rates!
-            </p>
-          </div>
-        </div>
-      `,
-    });
-
-    // Add delay to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Send additional priority notification email
-    const priorityEmailResponse = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ["rabtmarketingcompany@gmail.com"],
-      subject: `🚨 URGENT: New Lead - ${company} (${budget})`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: #dc2626; color: white; padding: 16px; border-radius: 8px; text-align: center; margin-bottom: 24px;">
-            <h1 style="margin: 0; font-size: 24px;">🚨 NEW LEAD ALERT 🚨</h1>
-          </div>
-          
-          <div style="background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 16px; margin-bottom: 24px;">
-            <h2 style="margin-top: 0; color: #0c4a6e;">Quick Summary</h2>
-            <p style="margin: 8px 0;"><strong>Company:</strong> ${company}</p>
-            <p style="margin: 8px 0;"><strong>Contact:</strong> ${contactName} (${email})</p>
-            <p style="margin: 8px 0;"><strong>Budget:</strong> <span style="color: #dc2626; font-weight: bold;">${budget}</span></p>
-            <p style="margin: 8px 0;"><strong>Timeline:</strong> ${timeline}</p>
-            ${phone ? `<p style="margin: 8px 0;"><strong>Phone:</strong> <a href="tel:+91${phone}" style="color: #0ea5e9;">+91 ${phone}</a></p>` : ''}
-          </div>
-          
-          <div style="background: #16a34a; color: white; padding: 12px; border-radius: 8px; text-align: center;">
-            <p style="margin: 0; font-weight: bold;">
-              💰 Potential Revenue: ${budget} | ⏰ Contact within 2 hours!
-            </p>
-          </div>
-          
-          <p style="color: #6b7280; font-size: 12px; margin-top: 24px; text-align: center;">
-            This is an automated priority notification for high-value leads.
-          </p>
-        </div>
-      `,
-    });
-
-    console.log("Emails sent successfully:", { clientEmailResponse, teamEmailResponse, priorityEmailResponse });
+    // Email functionality removed - ready for new email service integration
+    console.log("Email sending functionality has been removed. Ready for new integration.");
 
     return new Response(JSON.stringify({ 
       success: true,
-      clientEmail: clientEmailResponse,
-      teamEmail: teamEmailResponse 
+      message: "Onboarding data received successfully"
     }), {
       status: 200,
       headers: {
